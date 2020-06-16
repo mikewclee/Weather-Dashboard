@@ -5,10 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+  <link rel="stylesheet" type="text/css" href="/Assets/css/style.css">
   <title>Weather Dashboard</title>
 </head>
 
@@ -23,20 +22,20 @@
       <aside class="col-lg-3 bg-light">
         <h5 class="mt-1">Search for a City:</h5>
         <form class="form-inline form-group">
-          <input class="form-control" type="type" id="search-value" />
+          <input class="form-control" type="type" id="search-value" placeholder="Enter City" aria-label="text">
           <button class="btn btn-primary" id="search-button"> <i class="fa fa-search"></i> </button>
         </form>
 
-        <ul class="list-group"></ul>
+        <div id="cityButtons">
+        <ul></ul>
+      </div>
       </aside>
 
       <div class="col-lg-9">
         <div id="currentWeather" class="mt-3"></div>
-        <h2>Current Weather</h2>
-        <div>
-          <h3>5-Day Forecast:</h3>
-          <div class="row align-middle" id="weatherForecast" ></div>
-        </div>
+
+        <div class="row" id="weatherForecast"></div>
+
       </div>
 
     </div>
