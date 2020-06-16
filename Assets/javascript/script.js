@@ -4,7 +4,6 @@ $(document).ready(function () {
         var todayDate = moment().format('MMMM Do YYYY, h:mm:ss a');
         // console.log(todayDate);
         $('#clock').html(todayDate);
-
     }, 1000);
 
     var apiKey = '&APPID=8f3ed085f2c3b566fb3eb9e5a44a0736';
