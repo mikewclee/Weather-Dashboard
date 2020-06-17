@@ -14,8 +14,8 @@ $(document).ready(function () {
         var cityInput = $("#search-value").val().trim();
         //array to store enter Cities from user
         var allCities = [];
-        allCities = JSON.parse(localStorage.getItem("allCities"));
-        allCities.push(cityInput); // pushes new cities entered to array 
+        allCities = JSON.parse(localStorage.getItem("allCities")) || [];
+        allCities.push(cityInput);
         // console.log('local storage: ' + allCities)
         localStorage.setItem("allCities", JSON.stringify(allCities));
         //get current weather function
