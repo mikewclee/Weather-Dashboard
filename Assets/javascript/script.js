@@ -11,24 +11,21 @@ $(document).ready(function () {
     $('#search-button').on('click', function (event) {
         event.preventDefault();
         //store user input
-        var cityEnter = $("#search-value").val();
-        var cityInput = cityEnter.trim();
+        var cityInput = $("#search-value").val().trim();
         //array to store enter Cities from user
         var allCities = [];
-        allCities = JSON.parse(localStorage.getItem("allCities")) || [];
+        allCities = JSON.parse(localStorage.getItem("allCities"));
         allCities.push(cityInput); // pushes new cities entered to array 
-        localStorage.setItem("allCities", JSON.stringify(allCities)); //saves city input to local storage 
         // console.log('local storage: ' + allCities)
+        localStorage.setItem("allCities", JSON.stringify(allCities));
         //get current weather function
         getWeather(cityInput);
     })
 
     function getWeather(cityInput) {
-
-        console.log("User type: " + cityInput);
+        // console.log("UserInput: " + cityInput);
         // var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q="+ cityInput + apiKey;
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+cityInput + "&units=imperial" + apiKey;
-        console.log("API: " + queryURL);
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&units=imperial" + apiKey;
 
         $.ajax({
             url: queryURL,
@@ -47,7 +44,7 @@ $(document).ready(function () {
         <p>Humidity: ${response.main.humidity}%</p>
         <p>Wind Speed: ${response.wind.speed} m/s</p>
         `,
-                //uvIndex function(lat,lon)
+                //uvIndexForcast function(lat,lon) to call API to get UV and 5 day forcast
                 uvIndexForcast(lat, lon))
             //saved cities function
             savedCities();
@@ -63,10 +60,10 @@ $(document).ready(function () {
             url: uvqueryURL,
             method: "GET"
         }).then(function (response) {
-            console.log(response)
+            // console.log(response)
             var currUVIndex = response.current.uvi;
             var uvSeverity = "green";
-            //Change UV color based on severity - favorable(uvi less than 3)-green, moderate(uvi 3-5)-yellow, sever(6-7)-orange, very high(8 and up)-red
+            //Change UV color based on severity - favorable(uvi less than 3)-green, moderate(uvi 3-7)-orange, severed(8 and up)-red
             if (currUVIndex >= 8) {
                 uvSeverity = "red";
             } else if (currUVIndex >= 6) {
@@ -80,7 +77,7 @@ $(document).ready(function () {
 
             //empty 5day forcast
             $('#weatherForecast').empty();
-            //Loop thru for 5 day forcast
+            //Loop thru for 5 day forcast, but API gives 7 day so had start at 1 and reduce by 2
             for (var i = 1; i < response.daily.length - 2; i++) {
                 var forcastDate = response.daily[i].dt;
                 //convert Epoch time to EST
@@ -107,13 +104,16 @@ $(document).ready(function () {
     }
 
     function savedCities() {
-        $("#cityButtons").empty(); // empties out previous array 
-        var arrayFromStorage = JSON.parse(localStorage.getItem("allCities")) || []; // Makes all cities searched a string
-        var arrayLength = arrayFromStorage.length; // limits length of array
+        $("#cityButtons").empty(); // empties out previous array
+        var fromStorage = JSON.parse(localStorage.getItem("allCities")); // Makes all cities searched a string
+        //Make to display unique cities, remove dup entry
+        var arrayFromStorage = [...new Set(fromStorage)];
+        // console.log('ARRAY localStorage '+ arrayFromStorage);
+
+        var arrayLength = arrayFromStorage.length;
 
         for (var i = 0; i < arrayLength; i++) {
             var cityNameFromArray = arrayFromStorage[i]; //
-
             $("#cityButtons").prepend(`<div class='list-group'> <button class='list-group-item'> ${cityNameFromArray}</button>`)
         }
     }
