@@ -11,7 +11,8 @@ $(document).ready(function () {
     $('#search-button').on('click', function (event) {
         event.preventDefault();
         //store user input
-        var cityInput = $("#search-value").val();
+        var cityEnter = $("#search-value").val();
+        var cityInput = cityEnter.trim();
         //array to store enter Cities from user
         var allCities = [];
         allCities = JSON.parse(localStorage.getItem("allCities")) || [];
@@ -26,7 +27,7 @@ $(document).ready(function () {
 
         console.log("User type: " + cityInput);
         // var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q="+ cityInput + apiKey;
-        var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&units=imperial" + apiKey;
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+cityInput + "&units=imperial" + apiKey;
         console.log("API: " + queryURL);
 
         $.ajax({
